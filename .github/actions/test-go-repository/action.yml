@@ -1,0 +1,45 @@
+name: Tests and vulnerability scans Go library repos
+description: Tests and vulnerability scans Go library repos
+
+inputs:
+  # SNYK_TOKEN:
+  #   required: true
+  #   default: "<>"
+  #   description: 'The Snyk token required for vulnerability scanning.'
+  # SNYK_ORGANIZATION_ID:
+  #   required: true
+  #   default: "<>"
+  #   description: 'The Snyk organization id required for vulnerability scanning.'
+  # SRC_WORKING_DIRECTORY:
+  #   required: true
+  #   default: "./libraries/go/common-lib/src"
+  #   description: 'The source working directory in which the code resides.'
+  TEST_WORKING_DIRECTORY:
+    required: true
+    default: "./libraries/go/common-lib/test"
+    description: 'The test working directory in which the code resides.'
+
+
+runs:
+  using: composite
+  steps:  
+  - name: Setup Go 1.21.3 🐹
+    uses: actions/setup-go@v4
+    with:
+      go-version: '1.21.3'
+  - name: Go mod tidy 🐹
+    shell: bash
+    run: |
+      go mod tidy
+    working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
+  - name: Go test 🐹
+    shell: bash
+    run: |
+      go test
+    working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
+  # - name: Run Snyk to check for vulnerabilities in the source code 🔍/🛡️
+  #   uses: snyk/actions/golang@master
+  #   env:
+  #     SNYK_TOKEN: ${{ inputs.SNYK_TOKEN }}
+  #   with:
+  #     args: $(find ${{ inputs.SRC_WORKING_DIRECTORY }} -type f -name '*.mod' -exec dirname {} \;) --orgs=${{ inputs.SNYK_ORGANIZATION_ID }} --severity-threshold=high
