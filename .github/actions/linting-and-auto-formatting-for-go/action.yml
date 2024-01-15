@@ -39,5 +39,5 @@ runs:
       git config --global user.email github-actions[bot]@users.noreply.github.com
       git pull
       git add -A
-      git diff-index --quiet HEAD || git commit -m "Formatted cpp project with clang-format"
+      git diff-index --quiet HEAD || git commit -m "Formatted go project with gofmt"
       git push
