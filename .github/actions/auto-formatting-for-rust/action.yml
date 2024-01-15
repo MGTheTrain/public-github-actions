@@ -1,0 +1,43 @@
+name: Liniting and auto-formatting Rust library repos
+description: Liniting and auto-formatting Rust library repos
+
+inputs:
+  WORKING_DIRECTORY:
+    required: true
+    default: "./"
+    description: 'The working directory in which the code resides.'
+  GH_TOKEN:
+    required: true
+    default: "<>"
+    description: 'The Github Personal access token for auth and authz.'
+
+
+runs:
+  using: composite
+  steps:
+    - name: Install Rust
+      shell: bash
+      run: |
+        sudo apt-get install -y curl build-essential
+        sudo curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    # - name: Use clippy for linting
+    #   shell: bash
+    #   run: |
+    #     cargo clippy --fix
+    #   working-directory: ${{ inputs.WORKING_DIRECTORY }}
+    - name: Use rustfmt
+      shell: bash
+      run: |
+        cargo fmt
+      working-directory: ${{ inputs.WORKING_DIRECTORY }}
+    - name: Commit changes
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.GH_TOKEN }}
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email github-actions[bot]@users.noreply.github.com
+        git pull
+        git add -A
+        git diff-index --quiet HEAD || git commit -m "Formatted cpp project with clang-format"
+        git push
