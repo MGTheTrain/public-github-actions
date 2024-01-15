@@ -1,0 +1,43 @@
+name: Liniting and auto-formatting Go library repos
+description: Liniting and auto-formatting Go library repos
+
+inputs:
+  WORKING_DIRECTORY:
+    required: true
+    default: "./"
+    description: 'The working directory in which the code resides.'
+  GH_TOKEN:
+    required: true
+    default: "<>"
+    description: 'The Github Personal access token for auth and authz.'
+
+
+runs:
+  using: composite
+  steps:
+  - name: Setup Go 1.21.3 🐹
+    uses: actions/setup-go@v4
+    with:
+      go-version: '1.21.3'
+  - name: Use gofmt for auto-formatting
+    shell: bash
+    run: |
+      gofmt -w .
+    working-directory: ${{ inputs.WORKING_DIRECTORY }}
+  - name: Install and use StaticCheck for linting
+    shell: bash
+    run: |
+      go install honnef.co/go/tools/cmd/staticcheck@2022.1
+      staticcheck .
+    working-directory: ${{ inputs.WORKING_DIRECTORY }}
+  - name: Commit changes
+    shell: bash
+    env:
+      GH_TOKEN: ${{ inputs.GH_TOKEN }}
+    run: |
+      git config --global user.name 'github-actions[bot]'
+      git config --global user.email github-actions[bot]@users.noreply.github.com
+      git pull
+      git add -A
+      git diff-index --quiet HEAD || git commit -m "Formatted cpp project with clang-format"
+      git push
