@@ -5,7 +5,7 @@ inputs:
   WORKING_DIRECTORY:
     required: true
     default: "./libraries/rust/common-lib"
-    description: 'The source working directory in which the code resides.'
+    description: 'The working directory in which the Cargo.toml resides.'
 
 
 runs:
