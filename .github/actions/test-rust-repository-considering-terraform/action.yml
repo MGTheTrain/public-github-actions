@@ -30,11 +30,6 @@ inputs:
 runs:
   using: composite
   steps:
-  - name: Install Rust
-    shell: bash
-    run: |
-      sudo apt-get install -y curl build-essential
-      sudo curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   - name: Terraform Init
     shell: bash
     id: init
@@ -62,6 +57,11 @@ runs:
       ARM_TENANT_ID: '${{ inputs.ARM_TENANT_ID }}'
       ARM_CLIENT_ID: '${{ inputs.ARM_CLIENT_ID }}'
       ARM_CLIENT_SECRET: '${{ inputs.ARM_CLIENT_SECRET }}'
+  - name: Install Rust
+    shell: bash
+    run: |
+      sudo apt-get install -y curl build-essential
+      sudo curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   - name: Run tests
     shell: bash
     run: |
