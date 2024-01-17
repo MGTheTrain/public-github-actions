@@ -19,12 +19,12 @@ runs:
   - name: Run tests
     shell: bash
     run: |
-      secrets_cfg="secrets.cfg"
-      if [ -e "$secrets_cfg" ]; then
-          source "$secrets_cfg"
-          echo "Environment variables sourced from $secrets_cfg"
+      if [ -e "secrets.cfg" ]; then
+          cat secrets.cfg
+          source secrets.cfg
+          echo "Environment variables sourced from secrets.cfg"
       else
-          echo "Version file not found: $secrets_cfg"
+          echo "File not found: secrets.cfg"
       fi
       cargo test
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
