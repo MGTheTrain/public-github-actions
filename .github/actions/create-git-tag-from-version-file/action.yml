@@ -1,0 +1,25 @@
+name: Github Action for creating git tags
+description: Creates git tags from version files
+
+inputs:
+  GH_TOKEN:
+    required: true
+    default: "<>"
+    description: 'The Github Personal access token for auth and authz.'
+
+runs:
+  using: composite
+  steps:
+  - name: Create Git tag from a version file
+    env:
+      GH_TOKEN: ${{ inputs.GH_TOKEN }}
+    shell: bash
+    run: |
+      git config --global user.name 'github-actions[bot]'
+      git config --global user.email github-actions[bot]@users.noreply.github.com
+      version=$(cat version)
+      message="New release for v${version}"
+      # Bad practice to overwrite an existing tag this way. For now acceptable. To be discussed.
+      git push origin :refs/tags/v${version}
+      git tag -f -a v${version} -m "${message}"
+      git push origin v${version}
