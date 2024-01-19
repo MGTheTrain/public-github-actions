@@ -26,7 +26,7 @@ runs:
       else
           echo "File not found: secrets.cfg"
       fi
-      RUST_LOG=info cargo test
+      RUST_LOG=debug cargo test
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
   - name: Run cargo-audit to check for vulnerabilities in the source code 🔍/🛡️
     shell: bash
