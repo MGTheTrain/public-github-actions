@@ -27,14 +27,10 @@ runs:
     uses: actions/setup-go@v4
     with:
       go-version: '1.21.3'
-  - name: Go mod tidy 🐹
-    shell: bash
-    run: |
-      go mod tidy
-    working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
   - name: Go test 🐹
     shell: bash
     run: |
+      go mod tidy
       go test
     working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
   # - name: Run Snyk to check for vulnerabilities in the source code 🔍/🛡️
