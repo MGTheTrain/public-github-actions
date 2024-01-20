@@ -24,11 +24,12 @@ runs:
     run: |
       gofmt -w .
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
-  - name: Install and use StaticCheck for linting
+  - name: Install and use golangci-lint for linting
     shell: bash
     run: |
-      go install honnef.co/go/tools/cmd/staticcheck@2022.1
-      staticcheck .
+      sudo apt-get install -y curl
+      curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.55.2
+      golangci-lint run
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
   - name: Commit changes
     shell: bash
