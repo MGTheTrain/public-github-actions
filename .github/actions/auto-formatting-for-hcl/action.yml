@@ -1,0 +1,49 @@
+name: Liniting and auto-formatting HCL repos
+description: Liniting and auto-formatting HCL repos
+
+inputs:
+  WORKING_DIRECTORY:
+    required: true
+    default: "./"
+    description: 'The working directory in which the code resides.'
+  GH_TOKEN:
+    required: true
+    default: "<>"
+    description: 'The Github Personal access token for auth and authz.'
+
+
+runs:
+  using: composite
+  steps:
+    - name: Install terraform and terraform-docs
+      shell: bash
+      run: |
+        sudo apt-get update 
+        sudo apt-get install -y gnupg software-properties-common
+        # Install the HashiCorp GPG key
+        wget -O- https://apt.releases.hashicorp.com/gpg | \
+        gpg --dearmor | \
+        sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+        # Add the official HashiCorp repository to your system
+        echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+        https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+        sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+        sudo apt update
+        sudo apt-get install terraform
+    - name: Use terraform fmt
+      shell: bash
+      run: |
+        terraform fmt -recursive .
+      working-directory: ${{ inputs.WORKING_DIRECTORY }}
+    - name: Commit changes
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.GH_TOKEN }}
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email github-actions[bot]@users.noreply.github.com
+        git pull
+        git add -A
+        git diff-index --quiet HEAD || git commit -m "Formatted hcl project with terraform fmt"
+        git push
