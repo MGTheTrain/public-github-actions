@@ -1,0 +1,23 @@
+name: Build and run C# tests
+description: Build and run C# tests
+
+inputs:
+  TEST_WORKING_DIRECTORY:
+    required: true
+    default: "./libraries/c#/test"
+    description: 'The test working directory in which the code resides.'
+
+
+runs:
+  using: composite
+  steps:
+  - name: Setup dotnet
+    uses: actions/setup-dotnet@v3
+    with:
+      dotnet-version: '8.0.x'
+  - name: Test with the dotnet CLI
+    shell: bash
+    run: |
+      find . -type f -name "*.csproj" -exec dotnet build {} \;
+      find . -type f -name "*.csproj" -exec dotnet test {} \;
+    working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
