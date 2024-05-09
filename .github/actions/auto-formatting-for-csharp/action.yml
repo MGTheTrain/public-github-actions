@@ -2,14 +2,6 @@ name: Auto-formatting C# library repos
 description: Auto-formatting C# library repos
 
 inputs:
-  SRC_WORKING_DIRECTORY:
-    required: true
-    default: "./libraries/c#/src/CommonLib"
-    description: 'The source working directory in which the code resides.'
-  TEST_WORKING_DIRECTORY:
-    required: true
-    default: "./libraries/c#/test"
-    description: 'The test working directory in which the code resides.'
   GH_TOKEN:
     required: true
     default: "<>"
@@ -29,12 +21,7 @@ runs:
     run: dotnet tool install -g dotnet-format
   - name: Auto-format test folder
     shell: bash
-    run: find . -name '*.csproj' -exec dotnet format {} \; 
-    working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
-  - name: Auto-format src folder
-    shell: bash
-    run: dotnet format .
-    working-directory: ${{ inputs.SRC_WORKING_DIRECTORY }}
+    run: find . -type f -name '*.csproj' -execdir dotnet format {} \;
   - name: Commit changes
     shell: bash
     env:
