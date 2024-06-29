@@ -18,6 +18,6 @@ runs:
   - name: Test
     shell: bash
     run: |
-      find . -type f -name "*.csproj" -exec dotnet build {} \;
-      find . -type f -name "*.csproj" -exec dotnet test {} \;
+      find . -type f -name "*.csproj" -exec dotnet build {} \; > /dev/null
+      find . -type f -name "*.csproj" -exec dotnet test {} \; | tee >(grep -E 'Failed:|Passed:|Skipped:' | tee -a $GITHUB_STEP_SUMMARY)
     working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
