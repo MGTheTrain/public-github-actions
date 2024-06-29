@@ -1,5 +1,5 @@
-name: Liniting and auto-formatting Rust library repos
-description: Liniting and auto-formatting Rust library repos
+name: Liniting and auto-formatting Rust repos
+description: Liniting and auto-formatting Rust repos
 
 inputs:
   WORKING_DIRECTORY:
@@ -9,7 +9,7 @@ inputs:
   GH_TOKEN:
     required: true
     default: "<>"
-    description: 'The Github Personal access token for auth and authz.'
+    description: 'The Github Personal access token.'
 
 
 runs:
@@ -25,7 +25,7 @@ runs:
     #   run: |
     #     cargo clippy --fix
     #   working-directory: ${{ inputs.WORKING_DIRECTORY }}
-    - name: Use rustfmt
+    - name: Auto-format
       shell: bash
       run: |
         cargo fmt

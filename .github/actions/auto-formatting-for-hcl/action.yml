@@ -9,7 +9,7 @@ inputs:
   GH_TOKEN:
     required: true
     default: "<>"
-    description: 'The Github Personal access token for auth and authz.'
+    description: 'The Github Personal access token.'
 
 
 runs:
@@ -33,7 +33,7 @@ runs:
 
         sudo apt update
         sudo apt-get install terraform
-    - name: Use terraform fmt
+    - name: Auto-format
       shell: bash
       run: |
         terraform fmt -recursive .

@@ -1,5 +1,5 @@
-name: Tests and vulnerability scans Rust library repos
-description: Tests and vulnerability scans Rust library repos
+name: Tests and security scans for Rust repos
+description: Tests and security scans for Rust repos
 
 inputs:
   WORKING_DIRECTORY:
@@ -16,7 +16,7 @@ runs:
     run: |
       sudo apt-get install -y curl build-essential
       sudo curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  - name: Run tests
+  - name: Test
     shell: bash
     run: |
       if [ -e "secrets.cfg" ]; then
@@ -28,7 +28,7 @@ runs:
       fi
       RUST_LOG=debug cargo test
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
-  - name: Run cargo-audit to check for vulnerabilities in the source code 🔍/🛡️
+  - name: Security scan 🔍/🛡️
     shell: bash
     run: |
       cargo install cargo-audit

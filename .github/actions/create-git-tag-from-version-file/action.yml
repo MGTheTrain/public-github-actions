@@ -1,16 +1,16 @@
-name: Github Action for creating git tags
+name: Create git tags from version files
 description: Creates git tags from version files
 
 inputs:
   GH_TOKEN:
     required: true
     default: "<>"
-    description: 'The Github Personal access token for auth and authz.'
+    description: 'The Github Personal access token.'
 
 runs:
   using: composite
   steps:
-  - name: Create Git tag from a version file
+  - name: Read version file and create git tag
     env:
       GH_TOKEN: ${{ inputs.GH_TOKEN }}
     shell: bash

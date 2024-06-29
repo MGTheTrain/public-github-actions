@@ -1,11 +1,11 @@
-name: Auto-formatting C# library repos
-description: Auto-formatting C# library repos
+name: Auto-formatting C# repos
+description: Auto-formatting C# repos
 
 inputs:
   GH_TOKEN:
     required: true
     default: "<>"
-    description: 'The Github Personal access token for auth and authz.'
+    description: 'The Github Personal access token.'
 
 # See: https://dev.to/srmagura/c-linting-and-formatting-tools-in-2021-bna, https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-format
 
@@ -19,7 +19,7 @@ runs:
   - name: Install dotnet-format
     shell: bash
     run: dotnet tool install -g dotnet-format
-  - name: Auto-format test folder
+  - name: Auto-format
     shell: bash
     run: find . -type f -name '*.csproj' -execdir dotnet format {} \;
   - name: Commit changes
@@ -31,5 +31,5 @@ runs:
       git config --global user.email github-actions[bot]@users.noreply.github.com
       git pull
       git add -A
-      git diff-index --quiet HEAD || git commit -m "Formatted cpp project with clang-format"
+      git diff-index --quiet HEAD || git commit -m "Formatted C# project with dotnet format"
       git push

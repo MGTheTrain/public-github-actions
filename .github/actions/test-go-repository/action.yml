@@ -1,5 +1,5 @@
-name: Tests and vulnerability scans Go library repos
-description: Tests and vulnerability scans Go library repos
+name: Tests and security scans for Go repos
+description: Tests and security scans for Go repos
 
 inputs:
   # SNYK_TOKEN:
@@ -27,13 +27,13 @@ runs:
     uses: actions/setup-go@v4
     with:
       go-version: '1.21.3'
-  - name: Go test 🐹
+  - name: Test 🐹
     shell: bash
     run: |
       go mod tidy
       go test
     working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
-  # - name: Run Snyk to check for vulnerabilities in the source code 🔍/🛡️
+  # - name: Security scan 🔍/🛡️
   #   uses: snyk/actions/golang@master
   #   env:
   #     SNYK_TOKEN: ${{ inputs.SNYK_TOKEN }}
