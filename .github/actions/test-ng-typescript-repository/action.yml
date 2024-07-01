@@ -27,5 +27,7 @@ runs:
 
   - name: Test TypeScript
     shell: bash
-    run: ng test --browsers ChromeHeadless --watch=false | tee -a $GITHUB_STEP_SUMMARY
+    run: |
+      echo "Typescript test results" | tee -a $GITHUB_STEP_SUMMARY
+      ng test --browsers ChromeHeadless --watch=false | tee -a $GITHUB_STEP_SUMMARY | tail -n 20
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
