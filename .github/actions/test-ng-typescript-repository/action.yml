@@ -27,5 +27,5 @@ runs:
 
   - name: Test TypeScript
     shell: bash
-    run: ng test --browsers ChromeHeadless --watch=false
+    run: ng test --browsers ChromeHeadless --watch=false | tee -a $GITHUB_STEP_SUMMARY
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
