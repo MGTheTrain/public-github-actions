@@ -23,16 +23,19 @@ inputs:
 runs:
   using: composite
   steps:  
+
   - name: Setup Go 1.21.3 🐹
     uses: actions/setup-go@v4
     with:
       go-version: '1.21.3'
+
   - name: Test 🐹
     shell: bash
     run: |
       go mod tidy
       go test
     working-directory: ${{ inputs.TEST_WORKING_DIRECTORY }}
+    
   # - name: Security scan 🔍/🛡️
   #   uses: snyk/actions/golang@master
   #   env:

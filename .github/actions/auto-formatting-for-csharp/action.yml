@@ -12,16 +12,20 @@ inputs:
 runs:
   using: composite
   steps:
+
   - name: Setup dotnet
     uses: actions/setup-dotnet@v3
     with:
       dotnet-version: '8.0.x'
+
   - name: Install dotnet-format
     shell: bash
     run: dotnet tool install -g dotnet-format
+
   - name: Auto-format
     shell: bash
     run: find . -type f -name '*.csproj' -execdir dotnet format {} \;
+    
   - name: Commit changes
     shell: bash
     env:

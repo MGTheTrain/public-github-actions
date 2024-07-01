@@ -15,6 +15,7 @@ inputs:
 runs:
   using: composite
   steps:
+
     - name: Install terraform
       shell: bash
       run: |
@@ -33,10 +34,12 @@ runs:
 
         sudo apt update
         sudo apt-get install terraform
+
     - name: Auto-format
       shell: bash
       run: |
         terraform fmt -recursive .
+        
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
     - name: Commit changes
       shell: bash

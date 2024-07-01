@@ -10,17 +10,21 @@ inputs:
 runs:
   using: composite
   steps:
+  
   - name: Set up Node.js
     uses: actions/setup-node@v3
     with:
       node-version: '20'
+
   - name: Install dependencies
     shell: bash
     run: npm install
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
+
   - name: Install Angular CLI
     shell: bash
     run: npm install -g @angular/cli
+
   - name: Test TypeScript
     shell: bash
     run: ng test --browsers ChromeHeadless --watch=false

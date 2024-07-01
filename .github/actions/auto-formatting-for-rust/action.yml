@@ -15,6 +15,7 @@ inputs:
 runs:
   using: composite
   steps:
+
     - name: Install Rust
       shell: bash
       run: |
@@ -25,11 +26,13 @@ runs:
     #   run: |
     #     cargo clippy --fix
     #   working-directory: ${{ inputs.WORKING_DIRECTORY }}
+
     - name: Auto-format
       shell: bash
       run: |
         cargo fmt
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
+      
     - name: Commit changes
       shell: bash
       env:

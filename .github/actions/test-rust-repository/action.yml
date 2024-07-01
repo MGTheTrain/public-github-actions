@@ -11,11 +11,13 @@ inputs:
 runs:
   using: composite
   steps:
+
   - name: Install Rust
     shell: bash
     run: |
       sudo apt-get install -y curl build-essential
       sudo curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
   - name: Test
     shell: bash
     run: |
@@ -28,6 +30,7 @@ runs:
       fi
       RUST_LOG=debug cargo test
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
+    
   - name: Security scan 🔍/🛡️
     shell: bash
     run: |

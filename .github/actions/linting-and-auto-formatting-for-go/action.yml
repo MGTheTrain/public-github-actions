@@ -15,15 +15,18 @@ inputs:
 runs:
   using: composite
   steps:
+
   - name: Setup Go 1.21.3 🐹
     uses: actions/setup-go@v4
     with:
       go-version: '1.21.3'
+      
   - name: Auto-format
     shell: bash
     run: |
       gofmt -w .
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
+
   - name: Lint
     shell: bash
     run: |
@@ -32,6 +35,7 @@ runs:
       go mod tidy
       golangci-lint run
     working-directory: ${{ inputs.WORKING_DIRECTORY }}
+    
   - name: Commit changes
     shell: bash
     env:
